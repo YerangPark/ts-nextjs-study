@@ -1,17 +1,25 @@
-import { GetStaticProps, NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
 
 type SSG2Props = {
   message: string
 }
 
-const SSG2: NextPage<SSG2Props> = (props) => {
-  const { message } = props
+async function getMessage(): Promise<SSG2Props> {
+  const timestamp = new Date().toLocaleString()
+  const message = `${timestamp}에 SSG로 페이지가 실행됐습니다.`
+  console.log(message);
+
+  return { message }
+}
+
+const SSG2 = async () => {
+  // const { message } = props
+  const { message }: SSG2Props = await getMessage()
 
   return (
     <div>
       <Head>
-        <title>Static Stie Generate : getStaticProps</title>
+        <title>Static Site Generate : getStaticProps</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
@@ -20,17 +28,6 @@ const SSG2: NextPage<SSG2Props> = (props) => {
       </main>
     </div>
   )
-}
-
-export const getStaticProps: GetStaticProps<SSG2Props> = async (context) => {
-  const timestamp = new Date().toLocaleString()
-  const message = `${timestamp}에 getStaticProps가 실행됐습니다.`
-  console.log(message);
-  return {
-    props: {
-      message,
-    },
-  }
 }
 
 export default SSG2;
